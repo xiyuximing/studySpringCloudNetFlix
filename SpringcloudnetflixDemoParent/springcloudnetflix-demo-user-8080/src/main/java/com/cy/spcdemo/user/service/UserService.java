@@ -5,8 +5,18 @@ import com.cy.spcdemo.user.entity.request.RegisterRequest;
 
 public interface UserService {
 
-    boolean login(LoginRequest loginRequest);
+    /**
+     * 登陆
+     * @param loginRequest
+     * @return
+     */
+    String login(LoginRequest loginRequest);
 
+    /**
+     * 注册
+     * @param registerRequest
+     * @return
+     */
     boolean register(RegisterRequest registerRequest);
 
     /**
@@ -16,4 +26,5 @@ public interface UserService {
      */
     boolean isRegistered(String email);
 
+    String info(String token);
 }
