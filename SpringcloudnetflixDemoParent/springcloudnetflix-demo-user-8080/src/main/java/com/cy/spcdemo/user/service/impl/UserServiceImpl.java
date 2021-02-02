@@ -1,5 +1,7 @@
 package com.cy.spcdemo.user.service.impl;
 
+import com.cy.spcdemo.dao.AuthCodeDao;
+import com.cy.spcdemo.entity.AuthCode;
 import com.cy.spcdemo.user.dao.UserDao;
 import com.cy.spcdemo.user.entity.db.User;
 import com.cy.spcdemo.user.entity.request.LoginRequest;
@@ -7,6 +9,7 @@ import com.cy.spcdemo.user.entity.request.RegisterRequest;
 import com.cy.spcdemo.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -18,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private AuthCodeDao authCodeDao;
 
     @Override
     public String login(LoginRequest loginRequest) {
@@ -36,6 +42,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(RegisterRequest registerRequest) {
 
+        Sort sort = new Sort(Sort.Direction.DESC, "ID");
+        authCodeDao.findAll((root, criteriaQuery, criteriaBuilder) -> {
+            criteriaBuilder.and(criteriaBuilder.equal(root.get("email"), registerRequest.getEmail()));
+
+        }, sort);
         return false;
     }
 

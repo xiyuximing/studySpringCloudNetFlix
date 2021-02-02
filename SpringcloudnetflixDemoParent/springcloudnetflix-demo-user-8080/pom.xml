@@ -26,6 +26,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.cy</groupId>
+            <artifactId>springcloudnetflix-demo-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
