@@ -1,4 +1,4 @@
-package com.cy.sycdemo.entity;
+package com.cy.spcdemo.entity;
 
 
 import lombok.Data;
