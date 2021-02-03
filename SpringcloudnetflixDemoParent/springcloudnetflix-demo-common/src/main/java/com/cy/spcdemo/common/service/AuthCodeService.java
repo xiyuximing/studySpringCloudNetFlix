@@ -1,4 +1,4 @@
-package com.cy.spcdemo.service;
+package com.cy.spcdemo.common.service;
 
 public interface AuthCodeService {
 

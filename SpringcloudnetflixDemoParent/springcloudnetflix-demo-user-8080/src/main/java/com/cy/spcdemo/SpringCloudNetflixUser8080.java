@@ -1,11 +1,9 @@
-package com.cy.spcdemo.user;
+package com.cy.spcdemo;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.client.SpringCloudApplication;
 
-@SpringBootApplication
-@EnableEurekaServer
+@SpringCloudApplication
 public class SpringCloudNetflixUser8080 {
 
     public static void main(String[] args) {

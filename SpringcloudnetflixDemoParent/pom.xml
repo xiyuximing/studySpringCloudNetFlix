@@ -10,6 +10,8 @@
     <modules>
         <module>springcloudnetflix-demo-user-8080</module>
         <module>springcloudnetflix-demo-common</module>
+        <module>springcloudnetfilx-demo-code-8081</module>
+        <module>springcloudnetflix-demo-email-8082</module>
     </modules>
     <packaging>pom</packaging>
 

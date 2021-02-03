@@ -1,7 +1,9 @@
 package com.cy.spcdemo.user.service.impl;
 
-import com.cy.spcdemo.dao.AuthCodeDao;
-import com.cy.spcdemo.entity.AuthCode;
+import com.cy.spcdemo.common.dao.AuthCodeDao;
+import com.cy.spcdemo.common.dao.TokenDao;
+import com.cy.spcdemo.common.entity.AuthCode;
+import com.cy.spcdemo.common.entity.Token;
 import com.cy.spcdemo.user.dao.UserDao;
 import com.cy.spcdemo.user.entity.db.User;
 import com.cy.spcdemo.user.entity.request.LoginRequest;
@@ -14,9 +16,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.persistence.criteria.Predicate;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,8 +30,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthCodeDao authCodeDao;
 
+    @Autowired
+    private TokenDao tokenDao;
+
     @Override
-    public String login(LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest, HttpServletResponse response) {
         User qryUser = new User();
         qryUser.setEmail(loginRequest.getEmail());
         qryUser.setPassword(DigestUtils.md5DigestAsHex(loginRequest.getPassword().getBytes()));
@@ -38,6 +44,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         User user = all.get(0);
+        String token = UUID.randomUUID().toString();
+        Token t = new Token();
+        t.setEmail(loginRequest.getEmail());
+        t.setToken(token);
+        tokenDao.save(t);
+        response.addCookie(new Cookie("token", token));
         return user.getEmail();
     }
 
@@ -75,6 +87,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String info(String token) {
+        Token t = new Token();
+        t.setToken(token);
+        Optional<Token> one = tokenDao.findOne(Example.of(t));
+        if (one.isPresent()) {
+            return one.get().getEmail();
+        }
         return null;
     }
 }

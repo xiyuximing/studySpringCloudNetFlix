@@ -1,6 +1,6 @@
-package com.cy.spcdemo.dao;
+package com.cy.spcdemo.common.dao;
 
-import com.cy.spcdemo.entity.AuthCode;
+import com.cy.spcdemo.common.entity.AuthCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
