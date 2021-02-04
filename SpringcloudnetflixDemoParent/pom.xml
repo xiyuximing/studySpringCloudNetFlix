@@ -12,6 +12,8 @@
         <module>springcloudnetflix-demo-common</module>
         <module>springcloudnetfilx-demo-code-8081</module>
         <module>springcloudnetflix-demo-email-8082</module>
+        <module>springcloudnetflix-demo-eureka-8761</module>
+        <module>springcloudnetflix-demo-eureka-8762</module>
     </modules>
     <packaging>pom</packaging>
 
