@@ -10,8 +10,8 @@ spring:
       uri: http://localhost:9006    #ConfigServer配置中心地址
   mail:
     host: smtp.qiye.163.com
-    username: xiyuximing@163.com
-    password: CY15295730857cy
+    username: xxx@163.com
+    password: xxxxxx
 #注册到Eureka服务中心
 eureka:
   client:
