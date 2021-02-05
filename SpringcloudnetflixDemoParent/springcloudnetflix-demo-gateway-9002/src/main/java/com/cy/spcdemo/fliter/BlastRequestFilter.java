@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class BlastRequestFilter implements GatewayFilter {
@@ -42,12 +43,16 @@ public class BlastRequestFilter implements GatewayFilter {
         String redisKey = REDIS_KEY + clientIp;
         ZSetOperations opsForZSet = redisTemplate.opsForZSet();
         Set<Long> set = opsForZSet.rangeByScore(redisKey, now - timeWin, now);
+
         if (set.size() > maxCount) {
             response.setStatusCode(HttpStatus.SEE_OTHER);
             String data = "您频繁进⾏行行注册，请求已被拒绝";
             DataBuffer wrap = response.bufferFactory().wrap(data.getBytes());
             return  response.writeWith(Mono.just(wrap));
         }
+        opsForZSet.add(redisKey, now, now);
+        opsForZSet.removeRangeByScore(redisKey, 0, now - timeWin);
+        redisTemplate.expire(redisKey, timeWin, TimeUnit.SECONDS);
         return chain.filter(exchange);
     }
 }
