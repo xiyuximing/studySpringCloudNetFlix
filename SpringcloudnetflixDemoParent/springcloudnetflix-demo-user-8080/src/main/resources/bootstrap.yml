@@ -1,0 +1,27 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: spring-cloud-user-server
+  cloud:
+    config:
+      name: spring-cloud-config
+      profile: dev
+      label: main
+      uri: http://127.0.0.1:9006
+eureka:
+  client:
+    service-url:
+      defaultZone: http://SpringCloudEurekaA:8761/eureka,http://SpringCloudEurekaB:8762/eureka
+  instance:
+    prefer-ip-address: true  #服务实例中显示ip，而不是显示主机名（兼容老的eureka版本）
+    # 实例名称： 192.168.1.103:lagou-service-resume:8080，我们可以自定义它
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -21,7 +22,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class BlastRequestFilter implements GatewayFilter {
+public class BlastRequestFilter implements GatewayFilter, Ordered {
 
     public static final String REDIS_KEY = "clientip";
 
@@ -46,7 +47,7 @@ public class BlastRequestFilter implements GatewayFilter {
 
         if (set.size() > maxCount) {
             response.setStatusCode(HttpStatus.SEE_OTHER);
-            String data = "您频繁进⾏行行注册，请求已被拒绝";
+            String data = "您频繁进行注册，请求已被拒绝";
             DataBuffer wrap = response.bufferFactory().wrap(data.getBytes());
             return  response.writeWith(Mono.just(wrap));
         }
@@ -54,5 +55,10 @@ public class BlastRequestFilter implements GatewayFilter {
         opsForZSet.removeRangeByScore(redisKey, 0, now - timeWin);
         redisTemplate.expire(redisKey, timeWin, TimeUnit.SECONDS);
         return chain.filter(exchange);
+    }
+
+    @Override
+    public int getOrder() {
+        return Ordered.LOWEST_PRECEDENCE;
     }
 }

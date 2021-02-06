@@ -1,21 +1,26 @@
 server:
-  port: 8082
+  port: 9006
 spring:
   cloud:
-    # config客户端配置,和ConfigServer通信，并告知ConfigServer希望获取的配置信息在哪个文件中
     config:
-      name: spring-cloud-config  #配置文件名称
-      profile: dev  #后缀名称
-      label: master #分支名称
-      uri: http://localhost:9006 #ConfigServer配置中心地址
-  application:
-    name: spring-cloud-email-server
+      server:
+        git:
+          uri: # git的地址
+          username: # 用户名
+          password: # 密码
+          search-paths: #查询路径
+      label: main #读取分支
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
 #注册到Eureka服务中心
 eureka:
   client:
     service-url:
       # 注册到集群，就把多个Eurekaserver地址使用逗号连接起来即可；注册到单实例（非集群模式），那就写一个就ok
-      defaultZone: http://SpringCloudEurekaA:8761/eureka,http://SpringCloudEurekaB:8762/eureka
+      defaultZone: http://SpringCloudEurekaServerA:8761/eureka,http://SpringCloudEurekaServerB:8762/eureka
   instance:
     prefer-ip-address: true  #服务实例中显示ip，而不是显示主机名（兼容老的eureka版本）
     # 实例名称： 192.168.1.103:lagou-service-resume:8080，我们可以自定义它

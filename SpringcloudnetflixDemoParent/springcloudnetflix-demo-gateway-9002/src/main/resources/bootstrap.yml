@@ -1,0 +1,39 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: spring-cloud-gateway-server
+  cloud:
+    config:
+      name: spring-cloud-config
+      profile: dev
+      uri: http://127.0.0.1:9006
+      label: main
+    gateway:
+      routes:
+        - id: user-router
+          uri: lb://spring-cloud-user-server
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+        - id: code-router
+          uri: lb://spring-cloud-code-server
+          predicates:
+            - Path=/api/code/**
+          filters:
+            - StripPrefix=1
+        - id: email-router
+          uri: lb://spring-cloud-email-server
+          predicates:
+            - Path=/api/email/**
+          filters:
+            - StripPrefix=1
+eureka:
+  client:
+    service-url:
+      default-zone: http://SpringCloudEurekaA:8761/eureka,http://SpringCloudEurekaB:8762/eureka
+  instance:
+    prefer-ip-address: true  #服务实例中显示ip，而不是显示主机名（兼容老的eureka版本）
+    # 实例名称： 192.168.1.103:lagou-service-resume:8080，我们可以自定义它
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
