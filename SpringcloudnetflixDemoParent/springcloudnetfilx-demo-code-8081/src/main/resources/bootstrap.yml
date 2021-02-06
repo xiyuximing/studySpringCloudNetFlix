@@ -7,7 +7,7 @@ spring:
     config:
       name: spring-cloud-config #配置文件名称
       profile: dev #后缀
-      label: main #分支
+      label: master #分支
       uri: http://localhost:9006 #ConfigService配置中心地址
 eureka:
   client:

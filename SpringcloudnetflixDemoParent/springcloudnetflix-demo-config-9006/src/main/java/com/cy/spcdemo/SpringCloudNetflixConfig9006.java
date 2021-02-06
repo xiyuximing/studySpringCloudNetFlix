@@ -1,10 +1,13 @@
 package com.cy.spcdemo;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-@SpringCloudApplication
+@SpringBootApplication
+@EnableEurekaClient
 @EnableConfigServer
 public class SpringCloudNetflixConfig9006 {
 
