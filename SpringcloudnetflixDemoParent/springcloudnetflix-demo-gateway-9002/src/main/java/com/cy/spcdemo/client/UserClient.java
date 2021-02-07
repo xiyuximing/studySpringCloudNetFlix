@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface UserClient {
 
     @RequestMapping("/info/{token}")
-    String info(@PathVariable String token);
+    String info(@PathVariable(name = "token") String token);
 }

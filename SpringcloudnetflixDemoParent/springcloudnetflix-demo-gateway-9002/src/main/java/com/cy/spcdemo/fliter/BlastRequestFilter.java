@@ -16,8 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +24,10 @@ public class BlastRequestFilter implements GatewayFilter, Ordered {
 
     public static final String REDIS_KEY = "clientip";
 
-    @Value("${maxCount}")
+    @Value("${custom.gateway.maxCount}")
     private Integer maxCount;
 
-    @Value("${timeWin}")
+    @Value("${custom.gateway.timeWin}")
     private long timeWin;
 
     @Autowired

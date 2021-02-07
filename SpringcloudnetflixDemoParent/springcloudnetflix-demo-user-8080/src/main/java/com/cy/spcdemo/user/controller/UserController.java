@@ -30,7 +30,7 @@ public class UserController {
 
     @RequestMapping("/register/{email}/{password}/{code}")
     public boolean register(@PathVariable(value = "email") String email, @PathVariable(value = "password") String password, @PathVariable(value = "code") String code) {
-        RegisterRequest registerRequest = new RegisterRequest();
+        RegisterRequest registerRequest = new RegisterRequest(code, email, password);
         return userService.register(registerRequest);
     }
 

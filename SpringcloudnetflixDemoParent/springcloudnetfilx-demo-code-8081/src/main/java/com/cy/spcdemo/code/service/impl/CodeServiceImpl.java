@@ -34,7 +34,7 @@ public class CodeServiceImpl implements CodeService {
         authCode.setEmail(email);
         authCode.setCode(code);
         authCode.setCreatetime(new Date());
-        Date expireDate = new Date(System.currentTimeMillis() + 1000 * 60 *10);
+        Date expireDate = new Date(System.currentTimeMillis() + 1000 * 60 * 10);
         authCode.setExpiretime(expireDate);
         authCodeDao.save(authCode);
         return emailClient.sendEmail(email, code);

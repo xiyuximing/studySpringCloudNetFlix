@@ -2,6 +2,7 @@ package com.cy.spcdemo.fliter;
 
 import com.cy.spcdemo.client.UserClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -21,7 +22,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-public class TokenFilter implements GlobalFilter, Ordered {
+public class TokenFilter implements GatewayFilter, Ordered {
 
     @Autowired
     private UserClient userClient;
@@ -30,6 +31,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
         ServerHttpRequest request = serverWebExchange.getRequest();
         ServerHttpResponse response = serverWebExchange.getResponse();
+        String uir = request.getPath().value();
         MultiValueMap<String, HttpCookie> cookies = request.getCookies();
         Optional<Map.Entry<String, List<HttpCookie>>> token = cookies.entrySet().stream().filter(entry -> Objects.equals(entry.getKey(), "token")).findAny();
         if (!token.isPresent()) {

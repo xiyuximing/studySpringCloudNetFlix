@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(RegisterRequest registerRequest) {
 
-        Sort sort = new Sort(Sort.Direction.DESC, "ID");
+        Sort sort = new Sort(Sort.Direction.DESC, "id");
         List<AuthCode> all = authCodeDao.findAll((root, criteriaQuery, criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.greaterThan(root.get("expiretime"), new Date());
             Predicate email = criteriaBuilder.equal(root.get("email"), registerRequest.getEmail());

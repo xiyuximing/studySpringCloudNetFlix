@@ -7,7 +7,7 @@ spring:
     config:
       name: spring-cloud-config
       profile: dev
-      label: main
+      label: master
       uri: http://127.0.0.1:9006
 eureka:
   client:

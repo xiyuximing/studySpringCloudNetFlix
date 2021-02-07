@@ -1,15 +1,16 @@
 server:
   port: 9006
 spring:
+  application:
+    name: spring-cloud-config-service
   cloud:
     config:
       server:
         git:
-          uri: # git的地址
-          username: # 用户名
-          password: # 密码
-          search-paths: #查询路径
-      label: main #读取分支
+          uri: https://github.com/xiyuximing/springcloudconfig.git # git的地址
+          username: xiyuximing@163.com # 用户名
+          password: Cy15295730857 # 密码
+      label: master #读取分支
   rabbitmq:
     host: 127.0.0.1
     port: 5672
@@ -20,7 +21,7 @@ eureka:
   client:
     service-url:
       # 注册到集群，就把多个Eurekaserver地址使用逗号连接起来即可；注册到单实例（非集群模式），那就写一个就ok
-      defaultZone: http://SpringCloudEurekaServerA:8761/eureka,http://SpringCloudEurekaServerB:8762/eureka
+      defaultZone: http://SpringCloudEurekaA:8761/eureka,http://SpringCloudEurekaB:8762/eureka
   instance:
     prefer-ip-address: true  #服务实例中显示ip，而不是显示主机名（兼容老的eureka版本）
     # 实例名称： 192.168.1.103:lagou-service-resume:8080，我们可以自定义它

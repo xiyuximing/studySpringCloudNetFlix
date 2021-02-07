@@ -8,8 +8,11 @@ spring:
       name: spring-cloud-config
       profile: dev
       uri: http://127.0.0.1:9006
-      label: main
+      label: master
     gateway:
+      discovery:
+        locator:
+          lowerCaseServiceId: true #可以使用小写匹配
       routes:
         - id: user-router
           uri: lb://spring-cloud-user-server

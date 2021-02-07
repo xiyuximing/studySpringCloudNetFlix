@@ -2,10 +2,9 @@ package com.cy.spcdemo.common.entity;
 
 
 import lombok.Data;
+import org.hibernate.annotations.Generated;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -14,6 +13,7 @@ import java.util.Date;
 public class AuthCode {
 
     @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
     private String email;

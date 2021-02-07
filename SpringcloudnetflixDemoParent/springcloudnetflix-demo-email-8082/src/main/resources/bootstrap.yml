@@ -7,9 +7,13 @@ spring:
       name: spring-cloud-config  #配置文件名称
       profile: dev  #后缀名称
       label: master #分支名称
-      uri: http://localhost:9006 #ConfigServer配置中心地址
+      uri: http://127.0.0.1:9006 #ConfigServer配置中心地址
   application:
     name: spring-cloud-email-server
+  mail:
+    host: smtp.163.com
+    username: xiyuximing@163.com
+    password: KQAFSEUWLIMSVWOG
 #注册到Eureka服务中心
 eureka:
   client:
