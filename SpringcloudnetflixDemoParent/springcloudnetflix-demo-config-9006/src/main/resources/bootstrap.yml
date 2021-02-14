@@ -8,8 +8,8 @@ spring:
       server:
         git:
           uri: https://github.com/xiyuximing/springcloudconfig.git # git的地址
-          username: xiyuximing@163.com # 用户名
-          password: Cy15295730857 # 密码
+          username: 529958314@163.com # 用户名
+          password: 123456 # 密码
       label: master #读取分支
   rabbitmq:
     host: 127.0.0.1

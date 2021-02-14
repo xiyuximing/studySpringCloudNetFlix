@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @FeignClient(name = "spring-cloud-user-server")
 public interface UserClient {
 
-    @RequestMapping("/info/{token}")
-    String info(@PathVariable(name = "token") String token);
+    @RequestMapping("/user/info/{token}")
+    String info(@PathVariable String token);
 }

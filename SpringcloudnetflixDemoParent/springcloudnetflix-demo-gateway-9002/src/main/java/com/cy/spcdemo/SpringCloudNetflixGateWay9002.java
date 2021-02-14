@@ -2,6 +2,7 @@ package com.cy.spcdemo;
 
 import com.cy.spcdemo.fliter.BlastRequestFilter;
 import com.cy.spcdemo.fliter.TokenFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
@@ -22,21 +23,27 @@ public class SpringCloudNetflixGateWay9002 {
         SpringApplication.run(SpringCloudNetflixGateWay9002.class, args);
     }
 
+    @Autowired
+    private BlastRequestFilter blastRequestFilter;
+
+    @Autowired
+    private TokenFilter tokenFilter;
+
     @Bean
     public RouteLocator customerRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(
                         r -> r.path("/api/user/register/**")
                                 .filters(f -> f.stripPrefix(1)
-                                        .filter(new BlastRequestFilter())
+                                        .filter(blastRequestFilter)
                                         )
                                 .uri("lb://spring-cloud-user-server")
                                 .order(0)
                                 .id("user-customer-router")
                 )
                 .route(r -> r.path("/api/email/**")
-                        .filters(f -> f.stripPrefix(2)
-                                .filter(new TokenFilter()))
+                        .filters(f -> f.stripPrefix(1)
+                                .filter(tokenFilter))
                         .uri("lb://spring-cloud-email-server")
                         .order(0)
                         .id("email-token-router")

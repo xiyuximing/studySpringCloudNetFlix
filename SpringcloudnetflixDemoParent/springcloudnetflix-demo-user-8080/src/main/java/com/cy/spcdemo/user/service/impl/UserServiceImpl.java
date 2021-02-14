@@ -49,7 +49,9 @@ public class UserServiceImpl implements UserService {
         t.setEmail(loginRequest.getEmail());
         t.setToken(token);
         tokenDao.save(t);
-        response.addCookie(new Cookie("token", token));
+        Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         return user.getEmail();
     }
 

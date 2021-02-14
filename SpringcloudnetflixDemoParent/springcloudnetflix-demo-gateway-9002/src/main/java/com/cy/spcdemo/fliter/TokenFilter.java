@@ -1,6 +1,7 @@
 package com.cy.spcdemo.fliter;
 
 import com.cy.spcdemo.client.UserClient;
+import org.apache.commons.codec.Charsets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -16,6 +17,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -31,22 +33,22 @@ public class TokenFilter implements GatewayFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange serverWebExchange, GatewayFilterChain gatewayFilterChain) {
         ServerHttpRequest request = serverWebExchange.getRequest();
         ServerHttpResponse response = serverWebExchange.getResponse();
-        String uir = request.getPath().value();
         MultiValueMap<String, HttpCookie> cookies = request.getCookies();
         Optional<Map.Entry<String, List<HttpCookie>>> token = cookies.entrySet().stream().filter(entry -> Objects.equals(entry.getKey(), "token")).findAny();
+
         if (!token.isPresent()) {
             response.setStatusCode(HttpStatus.SEE_OTHER);
             String data = "请先登录";
-            DataBuffer warp = response.bufferFactory().wrap(data.getBytes());
-            return response.writeWith(Mono.just(warp));
+            DataBuffer wrap = response.bufferFactory().wrap(data.getBytes(Charsets.UTF_8));
+            return response.writeWith(Mono.just(wrap));
         }
         Map.Entry<String, List<HttpCookie>> stringListEntry = token.get();
         List<HttpCookie> list = stringListEntry.getValue();
         if (list == null || list.isEmpty()) {
             response.setStatusCode(HttpStatus.SEE_OTHER);
             String data = "请先登录";
-            DataBuffer warp = response.bufferFactory().wrap(data.getBytes());
-            return response.writeWith(Mono.just(warp));
+            DataBuffer wrap = response.bufferFactory().wrap(data.getBytes(Charsets.UTF_8));
+            return response.writeWith(Mono.just(wrap));
         }
         HttpCookie cookie = list.get(0);
         String tokenStr = cookie.getValue();
@@ -54,8 +56,8 @@ public class TokenFilter implements GatewayFilter, Ordered {
         if (email == null || Objects.equals(email, "")) {
             response.setStatusCode(HttpStatus.SEE_OTHER);
             String data = "请先登录";
-            DataBuffer warp = response.bufferFactory().wrap(data.getBytes());
-            return response.writeWith(Mono.just(warp));
+            DataBuffer wrap = response.bufferFactory().wrap(data.getBytes(Charsets.UTF_8));
+            return response.writeWith(Mono.just(wrap));
         }
         return gatewayFilterChain.filter(serverWebExchange);
     }

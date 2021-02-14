@@ -10,10 +10,6 @@ spring:
       uri: http://127.0.0.1:9006 #ConfigServer配置中心地址
   application:
     name: spring-cloud-email-server
-  mail:
-    host: smtp.163.com
-    username: xiyuximing@163.com
-    password: KQAFSEUWLIMSVWOG
 #注册到Eureka服务中心
 eureka:
   client:
